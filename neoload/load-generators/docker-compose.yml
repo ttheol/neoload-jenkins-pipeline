@@ -1,10 +1,12 @@
 docker-lg1:
   container_name: docker-lg1
+  hostname: docker-lg1
   image: neotys/neoload-loadgenerator:7.0
   environment:
     - LOADGENERATOR_XMX=-Xmx512m
 docker-lg2:
   container_name: docker-lg2
+  hostname: docker-lg2
   image: neotys/neoload-loadgenerator:7.0
   environment:
     - LOADGENERATOR_XMX=-Xmx512m
