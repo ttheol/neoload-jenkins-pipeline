@@ -25,7 +25,7 @@ pipeline {
             testName: 'Petstore API (build ${BUILD_NUMBER})',
             testDescription: 'Testing Load as Code',
             commandLineOption: "-loadGenerators $WORKSPACE/neoload/load-generators/lg.yaml -nlweb -nlwebAPIURL http://dockerps1.neotys.com:8080 -nlwebToken t2w9wTIWQmaEe60U1IvEQwIs -leaseServer nlweb -leaseLicense 10:1",
-            scenario: 'Petstore API', sharedLicense: [server: 'NeoLoad Demo License', duration: 2, vuCount: 5]
+            scenario: 'Petstore API'
         }
       }
     }
