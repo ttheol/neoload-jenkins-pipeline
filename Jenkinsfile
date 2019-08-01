@@ -4,14 +4,16 @@ pipeline {
     stage('Start NeoLoad infrastructure') {
       agent { label 'master' }
       steps {
+        sh 'docker network create neoload'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml up -d'
+        sh 'docker network join neoload $(docker ps -f name=docker-lg*)'
         stash includes: 'neoload/load-generators/lg.yaml', name: 'LG'
       }
     }
     stage('API Tests') {
       agent {
         dockerfile {
-          args '--user root -v /tmp:/tmp'
+          args '--user root -v /tmp:/tmp --network=neoload'
           dir 'neoload/controller'
         }
       }
@@ -35,6 +37,7 @@ pipeline {
         archiveArtifacts 'Jenkinsfile'
         archiveArtifacts 'neoload/**'
         sh 'docker volume prune -f'
+        sh 'docker network rm neoload'
         cleanWs()
       }
     }
