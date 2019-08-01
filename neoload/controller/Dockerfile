@@ -22,6 +22,7 @@ VOLUME ${AGENT_WORKDIR}
 WORKDIR /home/${user}
 
 ENV CONTROLLER_XMX=-Xmx512m
+RUN ln -s /home/neoload/neoload/bin/NeoLoadCmd /usr/bin/NeoLoadCmd
 
 EXPOSE 7100
 
