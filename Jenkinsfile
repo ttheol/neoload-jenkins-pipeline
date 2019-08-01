@@ -29,13 +29,11 @@ pipeline {
         }
       }
     }
-    stage('Stop Infrastructure') {
-        stage('Stop NeoLoad infrastructure') {
-          agent { label 'master' }
-          steps {
-            sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
-          }
-        }
+    stage('Stop NeoLoad infrastructure') {
+      agent { label 'master' }
+      steps {
+        sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
+      }
     }
     stage('Cleanup') {
       agent{ label 'master' }
