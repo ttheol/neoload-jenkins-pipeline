@@ -36,7 +36,7 @@ pipeline {
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
         sh 'docker network rm neoload'
         fileOperations([folderCreateOperation('api_as_code_demo'), fileCopyOperation(excludes: 'default.yaml,common,v1,.git,Jenkinsfile', flattenFiles: false, includes: '**', targetLocation: 'api_as_code_demo'), fileZipOperation('api_as_code_demo')])
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**,neoload_as_code_demo.zip'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**,api_as_code_demo.zip'
         sh 'docker volume prune -f'
         //cleanWs()
     }
