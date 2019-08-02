@@ -35,9 +35,10 @@ pipeline {
         unstash 'Jenkinsfile'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
         sh 'docker network rm neoload'
-        sh 'zip api_as_code_demo.zip $(ls | grep -vE  "common|default.yaml|neoload|Jenkinsfile|v1|*.bak")'
+        zip archive: true, dir: '', glob: 'ls | grep -vE  "common|default.yaml|neoload|Jenkinsfile|v1|*.bak"', zipFile: 'neoload_as_code_demo.zip'
+        //sh 'zip api_as_code_demo.zip $(ls | grep -vE  "common|default.yaml|neoload|Jenkinsfile|v1|*.bak")'
         //fileOperations([folderCreateOperation('api_as_code_demo'), fileCopyOperation(flattenFiles: false, includes: '*.nlp,config.zip,custom-resources/**,', targetLocation: 'api_as_code_demo'), fileZipOperation('api_as_code_demo')])
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**,api_as_code_demo.zip'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**'
         sh 'docker volume prune -f'
         cleanWs()
     }
