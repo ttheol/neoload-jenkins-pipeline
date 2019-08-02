@@ -39,7 +39,7 @@ pipeline {
         //fileOperations([folderCreateOperation('api_as_code_demo'), fileCopyOperation(flattenFiles: false, includes: '*.nlp,config.zip,custom-resources/**,', targetLocation: 'api_as_code_demo'), fileZipOperation('api_as_code_demo')])
         archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**,api_as_code_demo.zip'
         sh 'docker volume prune -f'
-        //cleanWs()
+        cleanWs()
     }
     }
   }
