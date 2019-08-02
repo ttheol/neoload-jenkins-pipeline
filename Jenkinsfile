@@ -27,6 +27,7 @@ pipeline {
   post {
     always{
       node('master'){
+        unstash 'LG'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
         sh 'docker network rm neoload'
         archiveArtifacts 'results/**'
