@@ -35,8 +35,12 @@ pipeline {
         unstash 'Jenkinsfile'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
         sh 'docker network rm neoload'
+        NEOLOAD_PROJECT_FILES = sh (
+          script: "ls | grep -vE  'common|default.yaml|neoload|Jenkinsfile|v1|*.bak'",
+          returnStdout: true
+        ).trim()
         script{
-          zip archive: true, dir: '', glob: "ls | grep -vE  'common|default.yaml|neoload|Jenkinsfile|v1|*.bak'", zipFile: 'neoload_as_code_demo.zip'
+          zip archive: true, dir: '', glob: "${NEOLOAD_PROJECT_FILES}", zipFile: 'neoload_as_code_demo.zip'
         }
         //sh 'zip api_as_code_demo.zip $(ls | grep -vE  "common|default.yaml|neoload|Jenkinsfile|v1|*.bak")'
         //fileOperations([folderCreateOperation('api_as_code_demo'), fileCopyOperation(flattenFiles: false, includes: '*.nlp,config.zip,custom-resources/**,', targetLocation: 'api_as_code_demo'), fileZipOperation('api_as_code_demo')])
