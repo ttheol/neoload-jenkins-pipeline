@@ -23,7 +23,7 @@ pipeline {
             url: 'https://github.com/ttheol/neoload-as-code-demo.git')
         unstash 'LG'
         withCredentials([string(credentialsId: 'neoloadToken', variable: 'neoloadToken')]) {
-          sh script: "NeoLoad -project '$WORKSPACE/default.yaml' -testResultName 'Petstore API (build ${BUILD_NUMBER})' -description 'Testing Load as Code' -launch 'Petstore API' -loadGenerators '$WORKSPACE/neoload/load-generators/lg.yaml' -nlweb -nlwebAPIURL http://dockerps1.neotys.com:8080 -nlwebToken ${neoloadToken} -leaseServer nlweb -leaseLicense 10:1/12"
+          sh script: "NeoLoad -project '$WORKSPACE/default.yaml' -testResultName 'Petstore API (build ${BUILD_NUMBER})' -description 'Testing Load as Code' -launch 'Petstore API' -loadGenerators '$WORKSPACE/neoload/load-generators/lg.yaml' -nlweb -nlwebAPIURL http://dockerps1.neotys.com:8080 -nlwebToken ${neoloadToken} -leaseServer nlweb -leaseLicense 10:10m"
         }
       }
     }
