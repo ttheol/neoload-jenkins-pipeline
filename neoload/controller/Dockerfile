@@ -7,7 +7,7 @@ ARG JENKINS_VERSION=3.26
 ARG JENKINS_WORKDIR=/home/${user}/agent
 
 USER root
-RUN ln -s /home/neoload/neoload/bin/NeoLoadCmd /usr/bin/NeoLoadCmd
+RUN ln -s /home/neoload/neoload/bin/NeoLoadCmd /usr/bin/NeoLoad
 RUN apk add --update --no-cache curl bash git openssh-client openssl procps \
   && curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${JENKINS_VERSION}/remoting-${JENKINS_VERSION}.jar \
   && chmod 755 /usr/share/jenkins \
