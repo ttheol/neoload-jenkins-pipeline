@@ -27,13 +27,15 @@ pipeline {
   }
   post {
     always{
-      sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
-      sh 'docker network rm neoload'
-      archiveArtifacts 'results/**'
-      archiveArtifacts 'Jenkinsfile'
-      archiveArtifacts 'neoload/**'
-      sh 'docker volume prune -f'
-      cleanWs()
+      node('master'){
+        sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
+        sh 'docker network rm neoload'
+        archiveArtifacts 'results/**'
+        archiveArtifacts 'Jenkinsfile'
+        archiveArtifacts 'neoload/**'
+        sh 'docker volume prune -f'
+        cleanWs()
+    }
     }
   }
 }
