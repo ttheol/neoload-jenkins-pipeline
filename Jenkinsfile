@@ -6,7 +6,7 @@ pipeline {
       steps {
         sh 'docker network create neoload'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml up -d'
-        sh 'for container in $(docker ps -qf name=docker-lg*); do docker network connect neoload $container done'
+        sh 'neoload/load-generators/join-neoload-network.sh'
         stash includes: 'neoload/load-generators/lg.yaml', name: 'LG'
       }
     }
