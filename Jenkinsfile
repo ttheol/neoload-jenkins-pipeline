@@ -13,7 +13,7 @@ pipeline {
     stage('API Tests') {
       agent {
         dockerfile {
-          args '--user root -v /tmp:/tmp --network=neoload'
+          args '--user root -v /tmp:/tmp --network=neoload --name=docker-controller'
           dir 'neoload/controller'
         }
       }
