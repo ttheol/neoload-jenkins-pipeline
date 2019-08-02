@@ -25,6 +25,10 @@ pipeline {
         withCredentials([string(credentialsId: 'neoloadToken', variable: 'neoloadToken')]) {
           sh script: "NeoLoad -project '$WORKSPACE/default.yaml' -testResultName 'Petstore API (build ${BUILD_NUMBER})' -description 'Testing Load as Code' -launch 'Petstore API' -loadGenerators '$WORKSPACE/neoload/load-generators/lg.yaml' -nlweb -nlwebAPIURL http://dockerps1.neotys.com:8080 -nlwebToken ${neoloadToken} -leaseServer nlweb -leaseLicense 10:1"
         }
+        NEOLOAD_PROJECT_FILES = sh (
+          script: "ls | grep -vE  'common|default.yaml|neoload|Jenkinsfile|v1|*.bak'",
+          returnStdout: true
+        ).trim()
       }
     }
   }
@@ -35,10 +39,6 @@ pipeline {
         unstash 'Jenkinsfile'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
         sh 'docker network rm neoload'
-        NEOLOAD_PROJECT_FILES = sh (
-          script: "ls | grep -vE  'common|default.yaml|neoload|Jenkinsfile|v1|*.bak'",
-          returnStdout: true
-        ).trim()
         script{
           zip archive: true, dir: '', glob: "${NEOLOAD_PROJECT_FILES}", zipFile: 'neoload_as_code_demo.zip'
         }
