@@ -6,7 +6,7 @@ pipeline {
       steps {
         sh 'docker network create neoload'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml up -d'
-        stash includes: 'neoload/load-generators/lg.yaml', name: 'LG'
+  //      stash includes: 'neoload/load-generators/lg.yaml', name: 'LG'
       }
     }
     stage('API Tests') {
@@ -19,7 +19,7 @@ pipeline {
       steps {
         git(branch: "master",
             url: 'https://github.com/ttheol/neoload-as-code-demo.git')
-        unstash 'LG'
+      //  unstash 'LG'
         sh script: "NeoLoadCmd -project '$WORKSPACE/default.yaml' -testResultName 'Petstore API (build ${BUILD_NUMBER})' -description 'Testing Load as Code' -launch 'Petstore API' -loadGenerators '$WORKSPACE/neoload/load-generators/lg.yaml' -nlweb -nlwebAPIURL http://dockerps1.neotys.com:8080 -nlwebToken t2w9wTIWQmaEe60U1IvEQwIs -leaseServer nlweb -leaseLicense 10:1"
       }
     }
@@ -27,7 +27,7 @@ pipeline {
   post {
     always{
       node('master'){
-        unstash 'LG'
+  //      unstash 'LG'
         sh 'docker-compose -f neoload/load-generators/docker-compose.yml down'
         sh 'docker network rm neoload'
         archiveArtifacts 'results/**'
