@@ -1,5 +1,9 @@
 pipeline {
   agent none
+  options {
+    disableConcurrentBuilds()
+    disableResume()
+  }
   stages {
     stage('Start NeoLoad infrastructure') {
       agent { label 'master' }
