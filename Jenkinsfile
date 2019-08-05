@@ -47,7 +47,7 @@ pipeline {
           ).trim().replaceAll("/","/**")
           zip archive: true, dir: '', glob: "${NEOLOAD_PROJECT_FILES}", zipFile: 'neoload_as_code_demo.zip'
         }
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**,common/**,v1/**,default.yaml'
         sh 'docker volume prune -f'
         sh 'docker image prune -f'
         cleanWs()
