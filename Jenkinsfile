@@ -23,7 +23,8 @@ pipeline {
             url: 'https://github.com/ttheol/neoload-as-code-demo.git')
         unstash 'LG'
         withCredentials([string(credentialsId: 'neoloadToken', variable: 'neoloadToken')]) {
-          sh script: "NeoLoad -project '$WORKSPACE/default.yaml' -testResultName 'Petstore API (build ${BUILD_NUMBER})' -description 'Testing Load as Code' -launch 'Petstore API' -loadGenerators '$WORKSPACE/neoload/load-generators/lg.yaml' -nlweb -nlwebAPIURL http://dockerps1.neotys.com:8080 -nlwebToken ${neoloadToken} -leaseServer nlweb -leaseLicense 10:1"
+          sh label: 'API Load Test',
+          script: "NeoLoad -project '$WORKSPACE/default.yaml' -testResultName 'Petstore API (build ${BUILD_NUMBER})' -description 'Testing Load as Code' -launch 'Petstore API' -loadGenerators '$WORKSPACE/neoload/load-generators/lg.yaml' -nlweb -nlwebAPIURL http://dockerps1.neotys.com:8080 -nlwebToken ${neoloadToken} -leaseServer nlweb -leaseLicense 10:1"
         }
       }
     }
@@ -42,8 +43,6 @@ pipeline {
           ).trim().replaceAll("/","/**")
           zip archive: true, dir: '', glob: "${NEOLOAD_PROJECT_FILES}", zipFile: 'neoload_as_code_demo.zip'
         }
-        //sh 'zip api_as_code_demo.zip $(ls | grep -vE  "common|default.yaml|neoload|Jenkinsfile|v1|*.bak")'
-        //fileOperations([folderCreateOperation('api_as_code_demo'), fileCopyOperation(flattenFiles: false, includes: '*.nlp,config.zip,custom-resources/**,', targetLocation: 'api_as_code_demo'), fileZipOperation('api_as_code_demo')])
         archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**'
         sh 'docker volume prune -f'
         cleanWs()
