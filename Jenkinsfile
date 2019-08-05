@@ -49,6 +49,7 @@ pipeline {
         }
         archiveArtifacts allowEmptyArchive: true, artifacts: 'results/**,Jenkinsfile,neoload/**'
         sh 'docker volume prune -f'
+        sh 'docker image prune -f'
         cleanWs()
     }
     }
