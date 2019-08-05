@@ -42,7 +42,7 @@ pipeline {
         sh 'docker network rm neoload'
         script {
           NEOLOAD_PROJECT_FILES = sh (
-            script: "ls -F | grep -vE  'common|default.yaml|neoload|Jenkinsfile|v1|*.bak' | tr '\n' ',' ; echo",
+            script: "ls -F | grep -vE  'neoload|Jenkinsfile|*.bak' | tr '\n' ',' ; echo",
             returnStdout: true
           ).trim().replaceAll("/","/**")
           zip archive: true, dir: '', glob: "${NEOLOAD_PROJECT_FILES}", zipFile: 'neoload_as_code_demo.zip'
